@@ -78,7 +78,10 @@ include 'util.php';
                <p class="card-text">an elegant but pocket friendly phone ...</p>
              </div>
              <!-- specs table goes here -->
-             <table class="table table-hover">
+             <div class="" style="overflow:auto;height:150px;">
+
+
+             <table class="table table-hover" >
                 <?php
 
                 $specs=array();
@@ -88,12 +91,13 @@ include 'util.php';
                 //print_r($specs);
                 foreach($specs as $key => $value) {
                   ?>
-                  <tr style="overflow:scroll;">
+                  <tr >
                     <td>  <?php echo $key ?></td>
                     <td style="text-align:right;"><?php echo $value ?></td>
                   </tr>
                 <?php } ?>
              </table>
+           </div>
              <!-- <ul class="list-group list-group-flush">
                <li class="list-group-item ">rt</li>
                <li class="list-group-item">yu</li>
