@@ -1,6 +1,8 @@
 <!-- this files contains links to import bootstap css and jquery and font awesome icons -->
 <?php
 echo '
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
 <!-- importing font aewsome icons -->
 <script src="https://kit.fontawesome.com/a076d05399.js"></script>
 
