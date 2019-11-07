@@ -20,6 +20,6 @@ background-color:#ebf5ff;
 width: 2px;
 }
 ::-webkit-scrollbar-thumb {
-  background: red;
+  background: #007bff;
   border-radius: 10px;
 }

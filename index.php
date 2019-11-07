@@ -67,7 +67,7 @@ include 'util.php';
              <div class="card" style="align:center;">
              <img class="card-img-top card-images" style="max-width:100%;height:auto;display: block;
   margin-left: auto;
-  margin-right: auto;" src= "img.jpg" alt="Card image cap">
+  margin-right: auto;" src= "img1.jpg" alt="Card image cap">
              <div class="card-body">
                <h4 class="card-title" style="display:inline;color:#007bff;font-weight:bold;font-family:;"> <?php echo $row["company"]." ".$row["model"] ?></h5>
                <button type="button" class="btn btn-primary float-right">
