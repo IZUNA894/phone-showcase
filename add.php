@@ -38,6 +38,7 @@ $company = test_input("company");
 $price = test_input("price");
 $specs = test_input("specs");
 check_file();
+//print_r($input);
 }
 
 
@@ -45,6 +46,88 @@ check_file();
 ?>
   </head>
   <body>
+    <script type="text/javascript">
+      // console.log("inside script");
+      function make(ele)
+      {
+        var spec_func = function(str)
+      {
+          var specs=[];
+          var arr= str.split(";");
+          console.log(arr);
+          arr.forEach((item)=>{
+        item=item.split(":");
+              var key= item[0];
+              var value = item[1];
+              specs[key]=value;
+              }
+              );
+
+                return specs;
+      };
+
+      var specs=spec_func(ele);
+
+      console.log(specs)  ;
+      console.log("lentgh is " + Object.keys(specs).length);
+      var length =Object.keys(specs).length;
+
+      function tableCreate(data_arr,length) {
+        //body reference
+        console.log(data_arr.length);
+        var body = document.getElementById("tgh");
+        //console.log(body);
+        // create elements <table> and a <tbody>
+        var tbl = document.createElement("table");
+        var tblBody = document.createElement("tbody");
+        var rows= length;
+        //data_arr.length;
+        var cols=2;
+        // cells creation
+        for (var i = 0; i < rows; i++) {
+          // table row creation
+          var row = document.createElement("tr");
+
+          for (var j = 0; j < cols; j++) {
+            // create element <td> and text node
+            //Make text node the contents of <td> element
+            // put <td> at end of the table row
+            var cell = document.createElement("td");
+            if(j==0)
+            {
+              cell.setAttribute("style","text-align:left;");
+              var cellText = document.createTextNode(Object.keys(data_arr)[i]);
+
+            }
+            else {
+              cell.setAttribute("style","text-align:right;");
+              var cellText = document.createTextNode(data_arr[Object.keys(data_arr)[i]]);
+
+
+            }
+
+            cell.appendChild(cellText);
+            row.appendChild(cell);
+          }
+
+          //row added to end of table body
+          tblBody.appendChild(row);
+        }
+
+        // append the <tbody> inside the <table>
+        tbl.appendChild(tblBody);
+        // put <table> in the <body>
+        body.appendChild(tbl);
+        // tbl border attribute to
+        //tbl.setAttribute("border", "2");
+        tbl.setAttribute("class","table table-hover");
+        tbl.setAttribute("style","width:80%;margin-left:auto;margin-right:auto;");
+      }
+
+      tableCreate(specs,length);
+
+    };
+    </script>
     <!-- including header -->
   <?php include "templates/header.php" ?>
 
@@ -91,7 +174,7 @@ check_file();
     <input type="specs" name="specs" class="form-control" id="specs"
     <?php if(empty($input["specs"])){ ?>placeholder="Enter specs here"
   <?php }else{ ?> value= " <?php echo $input["specs"]; };?>" style="display:inline;width:85%;">
-  <button onclick="make_table(document.getElementById('specs'));" type="button" class="btn btn-primary">Preview</button>
+  <button onClick="make(document.getElementById('specs').value);" type="button" class="btn btn-primary">Preview</button>
 
 
     <?php if(empty($error["specs"])){
@@ -102,26 +185,14 @@ check_file();
     <small id="" class="form-text text-danger"><?php echo $error["specs"] ?></small>
     <?php } ?>
 
-    <?php if(!empty($input["specs"])){ ?>
-    <div class="">
-      <table class="table table-hover"style="width:80%;margin-left:auto;margin-right:auto;" >
-         <?php
-         //include "util.php";
-         $specs=array();
 
-         //echo $row["specs"];
-         mk_array($_POST["specs"]);
-         //print_r($specs);
-         foreach($specs as $key => $value) {
-           ?>
-           <tr >
-             <td style="text-align:left;">  <?php echo $key ?></td>
-             <td style="text-align:right;"><?php echo $value ?></td>
-           </tr>
-         <?php } ?>
-      </table>
+    <div class="" id="tgh">
+
+
+      <!-- ......................... -->
+
+      <!-- ............... -->
     </div>
-  <?php } ?>
    </div>
 
     <div class="form-group">
@@ -141,7 +212,7 @@ check_file();
     <div class="form-group">
     <label for="">Uplaod image</label>
     <div class="custom-file">
-  <input type="file" name="img" class="custom-file-input" id="customFile">
+  <input type="file" name="img" class="custom-file-input" id="customFile" placeholder="choose file">
   <label class="custom-file-label" for="customFile">Choose file</label>
   <br />
   <br/>
@@ -164,26 +235,6 @@ check_file();
   <br>
 <!-- includin footer -->
   <?php include "templates/footer.php" ?>
-  <script type="text/javascript">
-    function make_table(ele)
-    {
-      var specs = function(str)
-    {
-        var specs=[];
-        var arr= str.split(";");
-        console.log(arr);
-        arr.forEach((item)=>{
- 			item=item.split(":");
-            var key= item[0];
-            var value = item[1];
-            specs[key]=value;
-            }
-            );
 
-              return specs;
-    };
-    console.log(specs(ele.value))  ;
-    }
-  </script>
     </body>
   </html>
