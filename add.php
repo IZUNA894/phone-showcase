@@ -26,27 +26,30 @@
     </style>
     <!-- custome php for form validation -->
   <?php
+    //$old=1;
     $model=$company=$price=$specs= "";
     $error= array("model"=>"","company"=>"","specs"=>"","price"=>"","img"=>"");
     $input=array("model"=>"","company"=>"","specs"=>"","price"=>"","img"=>"");
     $error_ideal=array("model"=>"","company"=>"","specs"=>"","price"=>"","img"=>"");
-
+// including php custom file having all called functions
     include "util.php";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-  //echo($_POST['model']);
 $model = test_input("model");
 $company = test_input("company");
 $price = test_input("price");
 $specs = test_input("specs");
+// function for checking file...
 check_file();
 $result = count(array_intersect($error,$error_ideal));
 if($result==5){
-  echo "inserting into databse";
   if(is_NULL($_GET["edit_id"]) ){
+
+
   insert_data();
   }
   else{
+    echo "updating into databse";
 
     update_data($_GET["edit_id"]);
   }
@@ -58,25 +61,13 @@ else{
 }
 }
 
-if ($_SERVER["REQUEST_METHOD"] == "GET" ) {
-  //echo($_POST['model']);
-//$model = test_input("model");
-//$company = test_input("company");
-//$price = test_input("price");
-//$specs = test_input("specs");
-//check_file();
-//$result = count(array_intersect($error,$error_ideal));
+if ($_SERVER["REQUEST_METHOD"] == "GET"  && !is_NULL($_GET["edit_id"]) ) {
 
-// if($result==5){
-   echo "in add page";
+
 
   find_data($_GET["edit_id"]);
-  //header("Location: index.php");
-// }
-// else{
-//
-//   echo "aborting inserting $result";
-// }
+  delete_phone($_GET["edit_id"]);
+
 }
 
 
@@ -84,89 +75,10 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" ) {
 ?>
   </head>
   <body>
-    <script type="text/javascript">
-      // console.log("inside script");
-      function make(ele)
-      {
-        var spec_func = function(str)
-      {
-          var specs=[];
-          var arr= str.split(";");
-          console.log(arr);
-          arr.forEach((item)=>{
-        item=item.split(":");
-              var key= item[0];
-              var value = item[1];
-              specs[key]=value;
-              }
-              );
 
-                return specs;
-      };
+  <script type="text/javascript" src="add.js">
 
-      var specs=spec_func(ele);
-
-      console.log(specs)  ;
-      console.log("lentgh is " + Object.keys(specs).length);
-      var length =Object.keys(specs).length;
-
-      function tableCreate(data_arr,length) {
-        //body reference
-        console.log(data_arr.length);
-        var body = document.getElementById("tgh");
-        //console.log(body);
-        // create elements <table> and a <tbody>
-        var tbl = document.createElement("table");
-        var tblBody = document.createElement("tbody");
-        var rows= length;
-        //data_arr.length;
-        var cols=2;
-        // cells creation
-        for (var i = 0; i < rows; i++) {
-          // table row creation
-          var row = document.createElement("tr");
-
-          for (var j = 0; j < cols; j++) {
-            // create element <td> and text node
-            //Make text node the contents of <td> element
-            // put <td> at end of the table row
-            var cell = document.createElement("td");
-            if(j==0)
-            {
-              cell.setAttribute("style","text-align:left;");
-              var cellText = document.createTextNode(Object.keys(data_arr)[i]);
-
-            }
-            else {
-              cell.setAttribute("style","text-align:right;");
-              var cellText = document.createTextNode(data_arr[Object.keys(data_arr)[i]]);
-
-
-            }
-
-            cell.appendChild(cellText);
-            row.appendChild(cell);
-          }
-
-          //row added to end of table body
-          tblBody.appendChild(row);
-        }
-
-        // append the <tbody> inside the <table>
-        tbl.appendChild(tblBody);
-        // put <table> in the <body>
-        body.innerHTML="";
-        body.appendChild(tbl);
-        // tbl border attribute to
-        //tbl.setAttribute("border", "2");
-        tbl.setAttribute("class","table table-hover");
-        tbl.setAttribute("style","width:80%;margin-left:auto;margin-right:auto;");
-      }
-
-      tableCreate(specs,length);
-
-    };
-    </script>
+  </script>
     <!-- including header -->
   <?php include "templates/header.php" ?>
 
@@ -181,6 +93,8 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" ) {
       <!-- form  -->
     <form  method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" enctype="multipart/form-data">
 
+
+<!-- inputing data for phone model -->
     <div class="form-group" style="">
     <label for="">PHONE MODEL</label>
     <input type="model" name="model" class="form-control" id=""
@@ -194,6 +108,8 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" ) {
 <?php } ?>
     </div>
 
+
+<!-- inputting data from "company" -->
     <div class="form-group">
     <label for="">COMPANY</label>
     <input type="company" name="company" class="form-control" id=""
@@ -208,6 +124,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" ) {
   <?php } ?>    </div>
 
 
+<!-- inputting data  for specs -->
     <div class="form-group">
     <label for="" style="display:block;">SPECS:</label>
     <input type="specs" name="specs" class="form-control" id="specs"
@@ -228,12 +145,12 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" ) {
     <div class="" id="tgh">
 
 
-      <!-- ......................... -->
 
-      <!-- ............... -->
     </div>
    </div>
 
+
+<!-- inputting price -->
     <div class="form-group">
     <label for="">PRICE</label>
     <input type="price" name="price" class="form-control" id=""
@@ -247,7 +164,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" ) {
     <small id="" class="form-text text-danger"><?php echo $error["price"] ?></small>
     <?php } ?>    </div>
 
-
+<!-- for uploading img -->
     <div class="form-group">
     <label for="">Uplaod image</label>
     <div class="custom-file">
@@ -264,10 +181,11 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" ) {
 <small id="" class="form-text text-danger"><?php echo $error["img"] ?></small>
 <?php } ?>
 </div>
+<!-- end of upload field -->
   <button type="submit" class="btn btn-primary">Submit</button>
 </form>
   </div>
-
+<!-- end of form -->
   <br>
   <br>
   <br>

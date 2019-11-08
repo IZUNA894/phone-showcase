@@ -38,47 +38,14 @@ $sql = "SELECT * FROM phone";
 $result = $conn->query($sql);
 //echo $result."hello";
 
-
+// including php file having all functions used here
 include 'util.php';
 ?>
   </head>
   <body>
-    <script type="text/javascript">
-    function delete_phone(id){
-      console.log("inside function");
-    var xhttp = new XMLHttpRequest();
 
-
-  xhttp.onreadystatechange = function() {
-    if (this.readyState == 4 && this.status == 200) {
-
-    //document.getElementById("response").innerHTML = this.responseText;
-    //console.log("record deleted succesfully");
-    }
-  };
-  xhttp.open("GET", "utility.php?deleteId="+id, true);
-  xhttp.send();
-}
-
-// function update_phone(id){
-//   console.log("inside function");
-// var xhttp = new XMLHttpRequest();
-//
-//
-// xhttp.onreadystatechange = function() {
-// if (this.readyState == 4 && this.status == 200) {
-//
-// document.getElementById("response").innerHTML = this.responseText;
-// //console.log("record deleted succesfully");
-// }
-// };
-// xhttp.open("GET", "utility_edit.php?editId="+id, true);
-// xhttp.send();
-// }
-    </script>
     <!-- header section -->
-  <?php
-  include "templates/header.php" ?>
+  <?php include "templates/header.php" ?>
 <!-- ending header -->
 
   <br>
@@ -99,7 +66,7 @@ include 'util.php';
            ?>
 
            <div class="col-lg-4" style="margin-top:10px;">
-             <!-- first card -->
+             <!--  card -->
              <div class="card" style="align:center;">
              <img class="card-img-top card-images" style="max-width:100%;height:auto;display: block;
   margin-left: auto;
@@ -111,7 +78,7 @@ include 'util.php';
                </button>
 
 
-               <p class="card-text">an elegant but pocket friendly phone ...</p>
+               <p class="card-text"></p>
              </div>
              <!-- specs table goes here -->
              <div class="" style="overflow:auto;height:150px;">
@@ -122,9 +89,9 @@ include 'util.php';
 
                 $specs=array();
 
-                //echo $row["specs"];
+
                 mk_array($row["specs"]);
-                //print_r($specs);
+
                 foreach($specs as $key => $value) {
                   ?>
                   <tr >
@@ -134,15 +101,11 @@ include 'util.php';
                 <?php } ?>
              </table>
            </div>
-             <!-- <ul class="list-group list-group-flush">
-               <li class="list-group-item ">rt</li>
-               <li class="list-group-item">yu</li>
-               <li class="list-group-item">Price:           <?php echo $row["price"] ?></li>
-             </ul> -->
+
              <div class="card-body">
                <a href="add.php?edit_id=<?php echo $row['id'] ?>" class="btn btn-primary">Edit</a>
 
-               <a href="#" onClick="delete_phone(<?php  echo $row['id'] ?>);" class="btn btn-primary float-right">Delete</a>
+               <a href="" onClick="delete_phone(<?php  echo $row['id'] ?>);" class="btn btn-primary float-right">Delete</a>
              </div>
            </div>
            </div>
@@ -154,7 +117,6 @@ include 'util.php';
 
 
 
-             <!-- //echo "model: " . $row["model"]. " - company: " . $row["company"]. "specs" . $row["specs"]."price:".$row["price"]."<br>"; -->
         <?php   }
       } else {
          echo "0 results";

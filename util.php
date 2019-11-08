@@ -247,7 +247,7 @@ if (!$conn) {
  $price="price";
 // doing sql query
 //$sql = "UPDATE MyGuests SET lastname='Doe' WHERE id=2";
-$sql = "UPDATE phone SET model='$input[$model]', company='$input[$company]' , specs='$input[$specs]' , img='$input[$img]' , price = '$input[$price]' WHERE id = '$id'";  
+$sql = "UPDATE phone SET model='$input[$model]', company='$input[$company]' , specs='$input[$specs]' , img='$input[$img]' , price = '$input[$price]' WHERE id = '$id'";
 
 if ($conn->query($sql) === TRUE) {
   //  echo "New record created successfully";
@@ -300,4 +300,32 @@ $conn->close();
     $conn->close();
     }
 
+
+//function for deleteing data
+function delete_phone($id)
+{
+  $servername = "localhost";
+  $username = "root";
+  $password = "";
+  $dbname = "phone database";
+
+  $conn = mysqli_connect($servername, $username, $password, $dbname);
+  // Check connection
+  if (!$conn) {
+      die("Connection failed: " . mysqli_connect_error());
+  }
+  $deleteeId="deleteId";
+
+  //$ele = $_GET[$deleteeId];
+  // sql to delete a record
+  $sql = "DELETE FROM phone WHERE id='$id'";
+
+  if (mysqli_query($conn, $sql)) {
+      //echo "Record deleted hrom table successfully";
+  } else {
+      echo "Error deleting record: " . mysqli_error($conn);
+  }
+
+  mysqli_close($conn);
+}
 ?>
