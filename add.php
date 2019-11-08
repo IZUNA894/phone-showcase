@@ -29,6 +29,8 @@
     $model=$company=$price=$specs= "";
     $error= array("model"=>"","company"=>"","specs"=>"","price"=>"","img"=>"");
     $input=array("model"=>"","company"=>"","specs"=>"","price"=>"","img"=>"");
+    $error_ideal=array("model"=>"","company"=>"","specs"=>"","price"=>"","img"=>"");
+
     include "util.php";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -38,7 +40,43 @@ $company = test_input("company");
 $price = test_input("price");
 $specs = test_input("specs");
 check_file();
-//print_r($input);
+$result = count(array_intersect($error,$error_ideal));
+if($result==5){
+  echo "inserting into databse";
+  if(is_NULL($_GET["edit_id"]) ){
+  insert_data();
+  }
+  else{
+
+    update_data($_GET["edit_id"]);
+  }
+  header("Location: index.php");
+}
+else{
+
+  echo "aborting inserting $result";
+}
+}
+
+if ($_SERVER["REQUEST_METHOD"] == "GET" ) {
+  //echo($_POST['model']);
+//$model = test_input("model");
+//$company = test_input("company");
+//$price = test_input("price");
+//$specs = test_input("specs");
+//check_file();
+//$result = count(array_intersect($error,$error_ideal));
+
+// if($result==5){
+   echo "in add page";
+
+  find_data($_GET["edit_id"]);
+  //header("Location: index.php");
+// }
+// else{
+//
+//   echo "aborting inserting $result";
+// }
 }
 
 
@@ -117,6 +155,7 @@ check_file();
         // append the <tbody> inside the <table>
         tbl.appendChild(tblBody);
         // put <table> in the <body>
+        body.innerHTML="";
         body.appendChild(tbl);
         // tbl border attribute to
         //tbl.setAttribute("border", "2");
@@ -145,7 +184,7 @@ check_file();
     <div class="form-group" style="">
     <label for="">PHONE MODEL</label>
     <input type="model" name="model" class="form-control" id=""
-    <?php if(empty($input["model"])){ ?>placeholder="Enter model name"
+    <?php if(empty($input["model"])){ ?> placeholder="Enter model name"
   <?php }else{ ?> value= " <?php echo $input["model"]; };?>">
     <?php if(empty($error["model"])){
       ?>

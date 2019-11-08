@@ -155,8 +155,8 @@ if ($uploadOk == 0) {
 } else {
     if (move_uploaded_file($_FILES["img"]["tmp_name"], $target_file)) {
       $temp_name=$_FILES['img']['name'];
-      rename("uploads/".$temp_name,"uploads/img".getNextIncrement("phone").".jpeg");
-      $input["img"]="img".getNextIncrement("phone").".jpg";
+      rename("uploads/".$temp_name,"uploads/img".getNextIncrement("phone").".$imageFileType");
+      $input["img"]="img".getNextIncrement("phone").".$imageFileType";
       //echo getNextIncrement("phone");
         //echo "The file ". basename( $_FILES["fileToUpload"]["name"]). " has been uploaded.";
     } else {
@@ -195,25 +195,109 @@ if ($uploadOk == 0) {
       $servername = "localhost";
       $username = "root";
       $password = "";
+      $database="phone database";
+      global $input;
     // Create connection
-    $conn = mysqli_connect($servername, $username, $password);
+    $conn = mysqli_connect($servername, $username, $password,$database);
+
+    // Check connection
+    if (!$conn) {
+        die("Connection failed: " . mysqli_connect_error());
+    }
+    //echo "Connected successfully";
+     $model="model";
+     $company="company";
+     $specs="specs";
+     $img="img";
+     $price="price";
+    // doing sql query
+    $sql = "INSERT INTO phone ($model, $company , $specs , $img , $price)
+    VALUES ('$input[$model]', '$input[$company]', '$input[$specs]','$input[$img]','$input[$price]')";
+
+    if ($conn->query($sql) === TRUE) {
+      //  echo "New record created successfully";
+    } else {
+        echo "Error: " . $sql . "<br>" . $conn->error;
+    }
+
+    $conn->close();
+  };
+
+
+
+// fuction for update data
+function update_data($id){
+  $servername = "localhost";
+  $username = "root";
+  $password = "";
+  $database="phone database";
+  global $input;
+// Create connection
+$conn = mysqli_connect($servername, $username, $password,$database);
+
+// Check connection
+if (!$conn) {
+    die("Connection failed: " . mysqli_connect_error());
+}
+//echo "Connected successfully";
+ $model="model";
+ $company="company";
+ $specs="specs";
+ $img="img";
+ $price="price";
+// doing sql query
+//$sql = "UPDATE MyGuests SET lastname='Doe' WHERE id=2";
+$sql = "UPDATE phone SET model='$input[$model]', company='$input[$company]' , specs='$input[$specs]' , img='$input[$img]' , price = '$input[$price]' WHERE id = '$id'";  
+
+if ($conn->query($sql) === TRUE) {
+  //  echo "New record created successfully";
+} else {
+    echo "Error: " . $sql . "<br>" . $conn->error;
+}
+
+$conn->close();
+};
+
+    // function for finding data from database...
+    // called when user clicks on edit button on home page..
+    function find_data($id){
+      $servername = "localhost";
+      $username = "root";
+      $password = "";
+      $database="phone database";
+      global $input;
+    // Create connection
+    $conn = mysqli_connect($servername, $username, $password,$database);
 
     // Check connection
     if (!$conn) {
         die("Connection failed: " . mysqli_connect_error());
     }
     echo "Connected successfully";
-
+     $model="model";
+     $company="company";
+     $specs="specs";
+     $img="img";
+     $price="price";
     // doing sql query
-    $sql = "INSERT INTO MyGuests (firstname, lastname, email)
-    VALUES ('John', 'Doe', 'john@example.com')";
+    $sql = "SELECT * FROM phone where id ='$id'";
+    $result = $conn->query($sql);
 
-    if ($conn->query($sql) === TRUE) {
-        echo "New record created successfully";
+    if ($result->num_rows > 0) {
+    // output data of each row
+    while($row = $result->fetch_assoc()) {
+        echo "id: " . $row["model"].  "<br>";
+        $input["model"]=$row["model"];
+        $input["company"]=$row["company"];
+        $input["specs"]=$row["specs"];
+        $input["price"]=$row["price"];
+
+    }
     } else {
-        echo "Error: " . $sql . "<br>" . $conn->error;
+    echo "0 results";
     }
 
     $conn->close();
     }
+
 ?>

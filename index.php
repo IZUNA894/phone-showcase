@@ -43,6 +43,39 @@ include 'util.php';
 ?>
   </head>
   <body>
+    <script type="text/javascript">
+    function delete_phone(id){
+      console.log("inside function");
+    var xhttp = new XMLHttpRequest();
+
+
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+
+    //document.getElementById("response").innerHTML = this.responseText;
+    //console.log("record deleted succesfully");
+    }
+  };
+  xhttp.open("GET", "utility.php?deleteId="+id, true);
+  xhttp.send();
+}
+
+// function update_phone(id){
+//   console.log("inside function");
+// var xhttp = new XMLHttpRequest();
+//
+//
+// xhttp.onreadystatechange = function() {
+// if (this.readyState == 4 && this.status == 200) {
+//
+// document.getElementById("response").innerHTML = this.responseText;
+// //console.log("record deleted succesfully");
+// }
+// };
+// xhttp.open("GET", "utility_edit.php?editId="+id, true);
+// xhttp.send();
+// }
+    </script>
     <!-- header section -->
   <?php
   include "templates/header.php" ?>
@@ -53,6 +86,9 @@ include 'util.php';
   <br>
 <!-- staring card deck -->
   <div class="container">
+    <div id="response">
+    </div>
+
     <h2 style="text-align:center;color:#007bff;">Mobile we have...</h2>
     <!-- first row -->
     <div class="row">
@@ -67,7 +103,7 @@ include 'util.php';
              <div class="card" style="align:center;">
              <img class="card-img-top card-images" style="max-width:100%;height:auto;display: block;
   margin-left: auto;
-  margin-right: auto;" src= "img1.jpg" alt="Card image cap">
+  margin-right: auto;" src= "<?php echo 'uploads/'.$row['img'] ?>" alt="Card image cap">
              <div class="card-body">
                <h4 class="card-title" style="display:inline;color:#007bff;font-weight:bold;font-family:;"> <?php echo $row["company"]." ".$row["model"] ?></h5>
                <button type="button" class="btn btn-primary float-right">
@@ -104,8 +140,9 @@ include 'util.php';
                <li class="list-group-item">Price:           <?php echo $row["price"] ?></li>
              </ul> -->
              <div class="card-body">
-               <a href="#" class="btn btn-primary">View</a>
-               <a href="#" class="btn btn-primary float-right">Delete</a>
+               <a href="add.php?edit_id=<?php echo $row['id'] ?>" class="btn btn-primary">Edit</a>
+
+               <a href="#" onClick="delete_phone(<?php  echo $row['id'] ?>);" class="btn btn-primary float-right">Delete</a>
              </div>
            </div>
            </div>
