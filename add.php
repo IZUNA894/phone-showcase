@@ -1,3 +1,5 @@
+<?php
+session_start(); ?>
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
   <head>
@@ -43,7 +45,7 @@ $specs = test_input("specs");
 check_file();
 $result = count(array_intersect($error,$error_ideal));
 if($result==5){
-  if(is_NULL($_GET["edit_id"]) ){
+  if(is_NULL($_SESSION["edit_id"]) ){
 
 
   insert_data();
@@ -51,7 +53,8 @@ if($result==5){
   else{
     echo "updating into databse";
 
-    update_data($_GET["edit_id"]);
+    update_data($_SESSION["edit_id"]);
+    $_SESSION["edit_id"]=NULL;
   }
   header("Location: index.php");
 }
@@ -66,7 +69,9 @@ if ($_SERVER["REQUEST_METHOD"] == "GET"  && !is_NULL($_GET["edit_id"]) ) {
 
 
   find_data($_GET["edit_id"]);
-  delete_phone($_GET["edit_id"]);
+  $_SESSION["edit_id"]=$_GET["edit_id"];
+  //echo $_SESSION["edit_id"];
+  //delete_phone($_GET["edit_id"]);
 
 }
 
